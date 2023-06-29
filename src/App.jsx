@@ -2,14 +2,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import './App.css'
 import Header from './components/Header'
-import Home from './Pages/Home'
+import List from './Pages/List'
 import Detail from './Pages/Detail'
 
 function App() {
   const [ darkmode, setDarkmode ] = useState(false);
   const [ data, setData ] = useState(null);
-  const [ item, setItem ] = useState(''); // 검색어
-  const [ error, setError ] = useState(false);
+  const [ word, setWord ] = useState(''); // 검색어
+  const [ seletindex,setSeletIndex ] = useState('');
 
   const handleDarkmode = () => {
     setDarkmode(!darkmode);
@@ -22,13 +22,14 @@ function App() {
       .then(json => {
           setData(json);
       })
-    }else{
+    } else {
       fetch('https://restcountries.com/v3.1/all?fields=name,flags,translations,continents,capital,population,subregion,cca2,languages')
       .then(response => response.json())
       .then(json => {
         setData(json);
       })
     }
+    
   }
 
   useEffect(()=>{
@@ -36,18 +37,19 @@ function App() {
   },[])
   
   // 입력함수
-  const handleLocationChange = (e) => {
-    setLocation(e.target.value);
+  const searchInput = (e) => {
+    setWord(e.target.value);
   }
 
   // 전송버튼 눌렀을 때
-  const handleCountrySearch = (e) => {
-    // 전송 이벤트 취소(기본 이벤트)
-    e.preventDefault();
+  const countrySearch = (e) => {
+    e.preventDefault(); // 전송 이벤트 취소(기본 이벤트)
     console.log('검색 호출');
     fetchData();
   }
-
+  const onSeletIndex=(item)=>{
+    setSeletIndex(item);
+  }
 
   return (
     <div className={ darkmode ? 'basicmode darkmode' : 'basicmode'}>
@@ -59,14 +61,17 @@ function App() {
               <Route 
                 path='/' 
                 element={
-                  <Home 
-                    data={data} 
-                    handleLocationChange={handleLocationChange}
-                    handleCountrySearch={handleCountrySearch}
-                    location={location}
+                  <List
+                    data={data}
+                    searchInput={searchInput}
+                    countrySearch={countrySearch}
+                    onSeletIndex={onSeletIndex}
+                    word={word}
                   />
                 } />
-              <Route path='/detail/:id' element={<Detail />} />
+              <Route 
+                path='/detail' 
+                element={<Detail data={data} seletindex={seletindex} />} />
             </Routes>
           </BrowserRouter>
         </div>
