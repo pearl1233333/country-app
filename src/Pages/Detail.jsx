@@ -1,6 +1,7 @@
 import React from 'react'
 
 function Detail(props) {
+  
   console.log('home: ', data);
   const indexnum = props.seletindex;
   console.log(props.data);

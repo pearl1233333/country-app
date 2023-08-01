@@ -7,29 +7,31 @@ import Detail from './Pages/Detail'
 
 function App() {
   const [ darkmode, setDarkmode ] = useState(false);
-  const [ data, setData ] = useState(null);
+  const [ data, setData ] = useState(null); // 나라 데이터
   const [ word, setWord ] = useState(''); // 검색어
-  const [ seletindex,setSeletIndex ] = useState('');
+  const [ seletindex, setSeletIndex ] = useState('');
 
   const handleDarkmode = () => {
     setDarkmode(!darkmode);
   }
 
   const fetchData = (item) => {
-    if(item){
-      fetch(`https://restcountries.com/v3.1/name/${item}`)
-      .then(response => response.json())
-      .then(json => {
-          setData(json);
-      })
-    } else {
-      fetch('https://restcountries.com/v3.1/all?fields=name,flags,translations,continents,capital,population,subregion,cca2,languages')
-      .then(response => response.json())
-      .then(json => {
-        setData(json);
-      })
-    }
-    
+    const url = item
+      ? `https://restcountries.com/v3.1/name/${item}`
+      : 'https://restcountries.com/v3.1/all?fields=name,flags,translations,continents,capital,population,subregion,cca2,languages';
+  
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          if(data !== null) {
+            setData(data);
+          } else {
+            setData('');
+          }
+        })
+        .catch(() => {
+          console.log('에러');
+        });
   }
 
   useEffect(()=>{
@@ -37,16 +39,16 @@ function App() {
   },[])
   
   // 입력함수
-  const searchInput = (e) => {
+  const HandleSearch = (e) => {
     setWord(e.target.value);
   }
 
-  // 전송버튼 눌렀을 때
-  const countrySearch = (e) => {
-    e.preventDefault(); // 전송 이벤트 취소(기본 이벤트)
-    console.log('검색 호출');
-    fetchData();
+  // 전송버튼
+  const HandleSearchBtn = (e) => {
+    e.preventDefault();
+    fetchData(word);
   }
+
   const onSeletIndex=(item)=>{
     setSeletIndex(item);
   }
@@ -63,12 +65,13 @@ function App() {
                 element={
                   <List
                     data={data}
-                    searchInput={searchInput}
-                    countrySearch={countrySearch}
+                    HandleSearch={HandleSearch}
+                    HandleSearchBtn={HandleSearchBtn}
                     onSeletIndex={onSeletIndex}
                     word={word}
                   />
-                } />
+                } 
+              />
               <Route 
                 path='/detail' 
                 element={<Detail data={data} seletindex={seletindex} />} />

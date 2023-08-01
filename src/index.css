@@ -7,12 +7,8 @@
 .wrap {
   max-width: 1440px;
   margin: 0 auto;
-}
-
-@media (max-width: 1440px) {
-  .wrap {
-    padding: 0 20px;
-  }
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .page {
@@ -29,51 +25,55 @@ a {
 ul, li {
   list-style: none;
 }
-.basicmode button {
-  padding: 10px;
-  background-color: hsl(0, 0%, 98%);
-  border: 1px solid hsl(209, 23%, 22%);
-  border-radius: 7px;
-  font-size: 12px;
-}
-
 header {
   width: 100%;
   height: 65px;
   border-bottom: 1px solid #ccc;
   box-sizing: border-box;
 }
-
 header .wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 20px;
+}
+.btn_mode {
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 7px;
   box-sizing: border-box;
+}
+@media (max-width: 480px) {
+  header {
+    height: 55px;
+  }
 }
 
 
 /* 다크모드 */
 .darkmode { 
-  background: hsl(207, 26%, 17%);
-  color: hsl(0, 0%, 100%) !important;
+  background: #000;
+  color: #fff !important;
 }
 .darkmode .logo a {
-  color: hsl(0, 0%, 100%);
+  color: #fff;
 }
-.darkmode button {
-  background-color: hsl(207, 26%, 17%);
-  border: 1px solid hsl(0, 0%, 100%);
-  color: hsl(0, 0%, 100%);
+.darkmode .btn_mode {
+  border: 1px solid #fff;
+  color: #fff;
+}
+@media (max-width: 480px) {
+  .logo a {
+    font-size: 16px;
+  }
+  .btn_mode {
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 10px;
+  }
 }
 
-.darkmode .int {
-  color: hsl(0, 0%, 100%);
-}
-.darkmode input::placeholder {
-  color: hsl(0, 0%, 100%);
-}
 
 /* 검색창 */
 .search-inner {
@@ -89,8 +89,9 @@ header .wrap {
   height: 35px;
   padding: 0 10px;
   background-color: transparent;
-  border: 1px solid hsl(0, 0%, 52%);
+  border: 1px solid #858585;
   border-radius: 5px;
+  background-color: #fff;
   color: hsl(200, 15%, 8%);
   box-sizing: border-box;
 }
@@ -101,13 +102,20 @@ header .wrap {
   justify-content: center;
   width: 70px;
   height: 35px;
-  background-color: transparent;
-  border: 1px solid #d5d5d5;
+  background-color: #333;
+  border: 1px solid #333;
   border-radius: 5px;
   margin-left: 7px;
   font-size: 14px;
+  color: #fff;
   box-sizing: border-box;
 }
+@media (max-width: 480px) {
+  .search-inner .int {
+    width: calc(100% - 77px);
+  }
+}
+
 
 /* 리스트 */
 .content_list {
@@ -161,8 +169,32 @@ header .wrap {
   }
   .content_list .content_inner:nth-child(4n) {margin-right:10px;}
   .content_list .content_inner:nth-child(3n) {margin-right:0;}
+  .content_img {
+    height: 150px;
+  }
 }
-
+@media (max-width: 480px) {
+  .content_inner {
+    width:calc((100% - 10px) / 2 );
+  }
+  .content_list .content_inner:nth-child(2n) {margin-right:0px;}
+  .content_list .content_inner:nth-child(4n) {margin-right:0px;}
+  .content_list .content_inner:nth-child(3n) {margin-right:10px;}
+  .content_list .content_inner:nth-child(6n) {margin-right:0px;}
+  .content_img {
+    height: 120px;
+  }
+}
+@media (max-width: 320px) {
+  .content_inner {
+    width: 100%;
+    margin-right: 0;
+  }
+  .content_list .content_inner:nth-child(3n) {margin-right:0px;}
+  .content_img {
+    height: 150px;
+  }
+}
 
 
 
